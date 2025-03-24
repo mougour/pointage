@@ -1,0 +1,202 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #FFFFFF;
+    color: #343A40;
+    line-height: 1.6;
+}
+
+/* Container styles */
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Card styles */
+.card {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Form styles */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #343A40;
+    margin-bottom: 0.5rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ADB5BD;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #008080;
+    box-shadow: 0 0 0 2px rgba(0, 128, 128, 0.1);
+}
+
+/* Button styles */
+.btn {
+    background-color: #008080;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+    background-color: #006666;
+}
+
+/* Error and status message styles */
+.error {
+    color: #DC3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    padding: 0.5rem;
+    background-color: rgba(220, 53, 69, 0.1);
+    border-radius: 4px;
+}
+
+.status {
+    color: #28A745;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background-color: rgba(40, 167, 69, 0.1);
+    border-radius: 4px;
+}
+
+/* Link styles */
+a {
+    color: #008080;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Logo styles */
+.logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 2rem;
+}
+
+/* Flex utilities */
+.flex {
+    display: flex;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-end {
+    justify-content: flex-end;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+.ms-3 {
+    margin-left: 0.75rem;
+}
+
+.mb-4 {
+    margin-bottom: 1rem;
+}
+
+/* Warning style for notifications */
+.warning {
+    color: #FFC107;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background-color: rgba(255, 193, 7, 0.1);
+    border-radius: 4px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #343A40;
+        color: #FFFFFF;
+    }
+
+    .card {
+        background-color: #495057;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .form-label {
+        color: #FFFFFF;
+    }
+
+    .form-input {
+        background-color: #6C757D;
+        border-color: #ADB5BD;
+        color: #FFFFFF;
+    }
+
+    .form-input:focus {
+        border-color: #008080;
+    }
+
+    .error {
+        background-color: rgba(220, 53, 69, 0.2);
+    }
+
+    .status {
+        background-color: rgba(40, 167, 69, 0.2);
+    }
+    
+    .warning {
+        background-color: rgba(255, 193, 7, 0.2);
+    }
+    
+    .btn {
+        background-color: #008080;
+    }
+    
+    .btn:hover {
+        background-color: #006666;
+    }
+    
+    a {
+        color: #009999;
+    }
+}
