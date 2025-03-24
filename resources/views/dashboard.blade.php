@@ -537,7 +537,7 @@
         align-items: center;
         justify-content: center;
         background-color: teal !important;
-        color: white;
+        color: white !important;
         padding: 0.65rem 1.25rem;
         border-radius: 8px;
         text-decoration: none;
@@ -551,6 +551,11 @@
         overflow: hidden;
     }
     
+    /* Ensure all action buttons have white text */
+    .action-button, .action-button:hover, .action-button:focus, .action-button:active {
+        color: white !important;
+    }
+
     .action-button::after {
         content: '';
         position: absolute;
@@ -677,24 +682,30 @@
 
         <div class="header-controls">
             <div class="date-filter">
-                <span class="filter-label"><i class="fas fa-calendar-alt"></i> Select Date:</span>
-                <input type="date" id="dashboardDate" class="date-input" value="{{ date('Y-m-d') }}">
+                <span class="filter-label"><i class="fas fa-filter"></i> View Period:</span>
+                <select id="timeRangeFilter" class="date-input">
+                    <option value="today">Today</option>
+                    <option value="week">This Week</option>
+                    <option value="month">This Month</option>
+                    <option value="quarter">This Quarter</option>
+                    <option value="custom">Custom Range</option>
+                </select>
             </div>
             
             <div class="control-buttons">
-                <button id="refreshDashboard" class="action-button" style="background-color: #10b981;">
-                    <i class="fas fa-sync-alt"></i> Refresh
+                <button id="exportData" class="action-button" style="background-color: #10b981;">
+                    <i class="fas fa-file-export"></i> Export
                 </button>
-                <button id="resetDateFilter" class="action-button" style="background-color: #6b7280;">
-                    <i class="fas fa-undo"></i> Reset
+                <button id="viewReports" class="action-button" style="background-color: #6b7280;">
+                    <i class="fas fa-chart-bar"></i> Reports
                 </button>
             </div>
         </div>
         
         <div class="action-row">
             <div class="right-actions">
-                <a href="{{ route('customized.payroll') }}" class="action-button" style="background-color: #6366f1;">
-                    <i class="fas fa-chart-line"></i> Payroll
+                <a href="{{ route('customized.payroll') }}" class="action-button" style="background-color: teal !important; color: white !important; font-weight: 600 !important;">
+                    <i class="fas fa-calculator"></i> Payroll Analysis
                 </a>
             </div>
         </div>

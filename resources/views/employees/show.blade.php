@@ -401,44 +401,53 @@
         }
     }
 
-    /* Toast notifications */
+    /* Toast notification styling */
     .toast {
         position: fixed;
         top: 20px;
-        right: 20px;
-        padding: 0.75rem 1rem;
+        left: 50%;
+        transform: translateX(-50%) translateY(-100px);
+        padding: 8px 12px;
+        background-color: white;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         border-radius: 8px;
-        color: white;
         display: flex;
         align-items: center;
-        min-width: 250px;
-        z-index: 9999;
-        transform: translateY(-20px);
         opacity: 0;
-        transition: all 0.3s ease;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        z-index: 9999;
+        max-width: 250px;
+        font-size: 0.9rem;
     }
     
     .toast.show {
-        transform: translateY(0);
+        transform: translateX(-50%) translateY(0);
         opacity: 1;
     }
     
     .toast-success {
-        background-color: var(--success);
+        border-left: 4px solid var(--success);
     }
     
     .toast-error {
-        background-color: var(--danger);
+        border-left: 4px solid var(--danger);
     }
     
     .toast-icon {
-        margin-right: 10px;
-        font-size: 1.2rem;
+        margin-right: 8px;
+        font-size: 1rem;
+    }
+    
+    .toast-success .toast-icon {
+        color: var(--success);
+    }
+    
+    .toast-error .toast-icon {
+        color: var(--danger);
     }
     
     .toast-message {
-        font-weight: 500;
+        flex: 1;
     }
     
     .status-update {
@@ -776,6 +785,77 @@
     .btn::after {
         display: none !important;
     }
+
+    /* Add styles for attendance status panel */
+    .attendance-status-panel {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        padding: 0.75rem;
+        background-color: rgba(0, 128, 128, 0.05);
+        border: 1px solid rgba(0, 128, 128, 0.1);
+        border-radius: 8px;
+    }
+    
+    .attendance-status, .attendance-time, .attendance-pause {
+        flex: 1;
+        min-width: 200px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .status-label, .time-label, .pause-label {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        color: #6B7280;
+        letter-spacing: 0.05em;
+        margin-bottom: 5px;
+    }
+    
+    .status-value, .time-value, .pause-value {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-dark);
+    }
+    
+    /* Style for the status update animation */
+    .status-update {
+        animation: fadeIn 0.5s ease;
+    }
+    
+    /* Pause log styling */
+    .pause-log {
+        margin-top: 1.5rem;
+        border-top: 1px solid var(--border-color);
+        padding-top: 1rem;
+    }
+    
+    .pause-log h4 {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+        color: var(--accent);
+    }
+    
+    .pause-entries-container {
+        max-height: 200px;
+        overflow-y: auto;
+        border: 1px solid rgba(0, 128, 128, 0.1);
+        border-radius: 8px;
+        padding: 0.5rem;
+        background-color: rgba(0, 128, 128, 0.02);
+    }
+    
+    .pause-entry {
+        padding: 0.5rem;
+        margin-bottom: 0.5rem;
+        background-color: white;
+        border: 1px solid rgba(0, 128, 128, 0.1);
+        border-radius: 6px;
+        font-size: 0.9rem;
+    }
     </style>
 @endsection
 
@@ -949,6 +1029,20 @@
     <!-- Attendance Actions Section -->
     <div class="attendance-actions">
         <h3><i class="fas fa-clock" style="margin-right: 8px;"></i>Attendance Management</h3>
+        <div class="attendance-status-panel">
+            <div class="attendance-status">
+                <div class="status-label">Current Status:</div>
+                <div id="currentStatus" class="status-value">Not Checked In</div>
+            </div>
+            <div class="attendance-time">
+                <div class="time-label">Work Time:</div>
+                <div id="timeCounter" class="time-value">00:00:00</div>
+            </div>
+            <div class="attendance-pause">
+                <div class="pause-label">Total Pause Time:</div>
+                <div id="totalPauseTime" class="pause-value">00:00:00</div>
+            </div>
+        </div>
         <div class="attendance-buttons">
             <button id="checkInBtn" class="btn btn-success">
                 <i class="fas fa-sign-in-alt" style="margin-right: 6px;"></i> Check In
@@ -962,6 +1056,12 @@
             <button id="checkOutBtn" class="btn btn-danger" disabled>
                 <i class="fas fa-sign-out-alt" style="margin-right: 6px;"></i> Check Out
             </button>
+        </div>
+        <div class="pause-log">
+            <h4>Today's Work Summary</h4>
+            <div id="pauseEntries" class="pause-entries-container">
+                <!-- Pause entries will be added here dynamically -->
+            </div>
         </div>
     </div>
 </div>
@@ -991,25 +1091,131 @@
         
         // Initialize based on current attendance status
         function initializeAttendance() {
-            // Check if employee is already checked in
-            @if(isset($isCheckedIn) && $isCheckedIn)
-                checkInTime = new Date('{{ $todayAttendance->check_in }}');
+            // Check if employee already has an attendance record for today
+            @if(isset($todayAttendance))
+                // Load check-in time if available
+                @if(isset($todayAttendance->check_in))
+                    // Parse check-in time with validation
+                    try {
+                        // Format date in ISO format to ensure proper parsing
+                        const checkInISO = '{{ date("Y-m-d\TH:i:s", strtotime($todayAttendance->check_in)) }}';
+                        checkInTime = new Date(checkInISO);
+                        
+                        // Check if date is valid
+                        if (isNaN(checkInTime.getTime())) {
+                            console.error('Invalid check-in date');
+                            checkInTime = null;
+                        }
+                    } catch (e) {
+                        console.error('Error parsing check-in date:', e);
+                        checkInTime = null;
+                    }
+                    
+                    // Check if employee has already checked out today
+                    @if(isset($todayAttendance->check_out) && $todayAttendance->check_out)
+                        // Parse check-out time with validation
+                        try {
+                            // Format date in ISO format to ensure proper parsing
+                            const checkOutISO = '{{ date("Y-m-d\TH:i:s", strtotime($todayAttendance->check_out)) }}';
+                            checkOutTime = new Date(checkOutISO);
+                            
+                            // Check if date is valid
+                            if (isNaN(checkOutTime.getTime())) {
+                                console.error('Invalid check-out date');
+                                checkOutTime = null;
+                            }
+                        } catch (e) {
+                            console.error('Error parsing check-out date:', e);
+                            checkOutTime = null;
+                        }
+                        
+                        // When both check in and check out exist, ALL buttons should be disabled
+                        checkInBtn.disabled = true;
+                        startPauseBtn.disabled = true;
+                        endPauseBtn.disabled = true;
+                        checkOutBtn.disabled = true;
+                        updateStatus('Completed Today');
+                        
+                        // Calculate total time with validation
+                        let totalTimeSeconds = 0;
+                        try {
+                            // Ensure dates are valid before calculation
+                            if (!isNaN(checkInTime.getTime()) && !isNaN(checkOutTime.getTime())) {
+                                totalTimeSeconds = Math.floor((checkOutTime - checkInTime) / 1000);
+                                totalTimeSeconds = Math.max(0, totalTimeSeconds); // Ensure positive value
+                            }
+                        } catch (e) {
+                            console.error('Error calculating time:', e);
+                        }
+                        totalWorkTime = totalTimeSeconds;
+                        
+                        @if(isset($todayAttendance->total_pause_time))
+                            totalPauseTime = {{ $todayAttendance->total_pause_time * 60 }}; // convert minutes to seconds
+                        @endif
+                        
+                        updateTimeCounter();
+                        updateTotalPauseTime();
+                        
+                        // Format dates with validation
+                        const checkInFormatted = isNaN(checkInTime.getTime()) ? 
+                            'N/A' : checkInTime.toLocaleTimeString();
+                        const checkOutFormatted = isNaN(checkOutTime.getTime()) ? 
+                            'N/A' : checkOutTime.toLocaleTimeString();
+                            
+                        // Show summary with validated values
+                        const summaryEntry = document.createElement('div');
+                        summaryEntry.className = 'pause-entry';
+                        summaryEntry.style.backgroundColor = 'rgba(79, 70, 229, 0.1)';
+                        summaryEntry.style.borderColor = 'rgba(79, 70, 229, 0.2)';
+                        summaryEntry.innerHTML = `
+                            Check-in: ${checkInFormatted}<br>
+                            Check-out: ${checkOutFormatted}<br>
+                            Total Time: ${formatTime(totalWorkTime)}<br>
+                            Total Pause: ${formatTime(totalPauseTime)}<br>
+                            Net Work Time: ${formatTime(Math.max(0, totalWorkTime - totalPauseTime))}
+                        `;
+                        pauseEntriesEl.prepend(summaryEntry);
+                    @else
+                        // Only checked in, not checked out
                 checkInBtn.disabled = true;
                 startPauseBtn.disabled = false;
                 checkOutBtn.disabled = false;
                 
                 @if(isset($isPaused) && $isPaused)
-                    pauseStartTime = new Date('{{ $activePause->start_time }}');
+                            try {
+                                // Format date in ISO format to ensure proper parsing
+                                const pauseStartISO = '{{ isset($activePause->start_time) ? date("Y-m-d\TH:i:s", strtotime($activePause->start_time)) : "" }}';
+                                pauseStartTime = new Date(pauseStartISO);
+                                
+                                // Check if date is valid
+                                if (isNaN(pauseStartTime.getTime())) {
+                                    console.error('Invalid pause start date');
+                                    pauseStartTime = null;
+                                }
+                            } catch (e) {
+                                console.error('Error parsing pause start date:', e);
+                                pauseStartTime = null;
+                            }
+                            
+                            if (pauseStartTime) {
                     startPauseBtn.disabled = true;
                     endPauseBtn.disabled = false;
                     updateStatus('On Pause');
+                            } else {
+                                updateStatus('Checked In');
+                            }
                 @else
                     updateStatus('Checked In');
                 @endif
                 
-                // Calculate elapsed time
+                        // Calculate elapsed time with validation
+                        let calculatedWorkTime = 0;
+                        if (checkInTime && !isNaN(checkInTime.getTime())) {
                 const now = new Date();
-                totalWorkTime = Math.floor((now - checkInTime) / 1000);
+                            calculatedWorkTime = Math.floor((now - checkInTime) / 1000);
+                            calculatedWorkTime = Math.max(0, calculatedWorkTime); // Ensure positive value
+                        }
+                        totalWorkTime = calculatedWorkTime;
                 
                 @if(isset($todayAttendance->total_pause_time))
                     totalPauseTime = {{ $todayAttendance->total_pause_time * 60 }}; // convert minutes to seconds
@@ -1018,7 +1224,17 @@
                 updateTimeCounter();
                 updateTotalPauseTime();
                 startTimer();
+                    @endif
             @else
+                    // Attendance record exists but no check-in (unusual case)
+                    updateStatus('Not Checked In');
+                @endif
+            @else
+                // No attendance record today, enable only check-in
+                checkInBtn.disabled = false;
+                startPauseBtn.disabled = true;
+                endPauseBtn.disabled = true;
+                checkOutBtn.disabled = true;
                 updateStatus('Not Checked In');
             @endif
         }
@@ -1122,7 +1338,8 @@
                 summaryEntry.style.backgroundColor = 'rgba(79, 70, 229, 0.1)';
                 summaryEntry.style.borderColor = 'rgba(79, 70, 229, 0.2)';
                 summaryEntry.innerHTML = `
-                    <strong>Work Summary:</strong><br>
+                    Check-in: ${checkInTime.toLocaleTimeString()}<br>
+                    Check-out: ${checkOutTime.toLocaleTimeString()}<br>
                     Total Time: ${formatTime(totalWorkTime)}<br>
                     Total Pause: ${formatTime(totalPauseTime)}<br>
                     Net Work Time: ${formatTime(totalWorkTime - totalPauseTime)}
@@ -1209,12 +1426,15 @@
             })
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
+                // Handle both response formats (success or status)
+                if (data.success === true || data.status === 'success') {
                     // Display a brief success message using a toast notification
                     showToast(`Successfully recorded ${action.replace('_', ' ')}`, 'success');
                 } else {
-                    showToast('Error: ' + data.message, 'error');
-                    console.error('Error:', data.message);
+                    // Use the message property if it exists, otherwise use a default error message
+                    const errorMessage = data.message || 'Unknown error occurred';
+                    showToast('Error: ' + errorMessage, 'error');
+                    console.error('Error:', errorMessage);
                 }
             })
             .catch(error => {
