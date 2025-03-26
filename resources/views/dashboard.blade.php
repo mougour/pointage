@@ -4,674 +4,7 @@
 
 @section('styles')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<style>
-    :root {
-        --primary: teal;
-        --primary-light: rgba(0, 128, 128, 0.1);
-        --secondary: #3B82F6; /* Medium blue */
-        --secondary-light: rgba(59, 130, 246, 0.1);
-        --accent: #008080;
-        --accent-light: rgba(96, 165, 250, 0.1);
-        --success: #047857; /* Dark green */
-        --success-light: rgba(4, 120, 87, 0.1);
-        --danger: #B91C1C; /* Dark red */
-        --danger-light: rgba(185, 28, 28, 0.1);
-        --warning: #B45309; /* Dark amber */
-        --warning-light: rgba(180, 83, 9, 0.1);
-        --dark-bg: rgba(15, 23, 42, 0.5); /* Very dark blue with opacity */
-        --border-color: rgba(30, 58, 138, 0.2); /* Dark blue border */
-        --text-light: rgba(255, 255, 255, 0.7);
-        --card-bg: rgba(15, 23, 42, 0.6); /* Very dark blue card background */
-    }
-
-    body {
-        background-color: white;
-        color: #333333;
-    }
-    
-    .card, .container, .dashboard-container {
-        background-color: white;
-    }
-    
-    .btn-primary, 
-    .nav-link.active,
-    .page-item.active .page-link {
-        background-color: teal !important;
-        border-color: teal !important;
-        color: white !important;
-    }
-    
-    .btn-primary:hover {
-        background-color: #006666 !important;
-        border-color: #006666 !important;
-    }
-    
-    .text-primary, 
-    .nav-link:not(.active),
-    a:not(.btn):not(.nav-link.active):not(.page-link) {
-        color: teal !important;
-    }
-    
-    .border-primary {
-        border-color: teal !important;
-    }
-    
-    .page-link {
-        color: teal;
-    }
-    
-    .page-link:hover {
-        color: #006666;
-    }
-    
-    /* If you have a sidebar or navigation */
-    .sidebar, .navbar {
-        background-color: white;
-        color: #333333;
-    }
-    
-    /* For any header sections */
-    .header, .card-header {
-        background-color: white;
-        color: #333333;
-        border-bottom-color: rgba(0, 128, 128, 0.2);
-    }
-
-    .dashboard-container {
-        width: 100%;
-        max-width: 1600px;
-        margin: 0 auto;
-    }
-    
-    .welcome-card {
-        text-align: center;
-        background: white;
-        border-radius: 12px;
-        border: 1px solid rgba(0, 128, 128, 0.2);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-        padding: 2rem;
-        margin-bottom: 2rem;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .welcome-card:hover {
-        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
-    }
-    
-    .welcome-card h2 {
-        font-size: 2.25rem;
-        margin-bottom: 1rem;
-        color: teal;
-        font-weight: 600;
-        letter-spacing: -0.5px;
-    }
-    
-    .welcome-card p {
-        font-size: 1.1rem;
-        margin-bottom: 2rem;
-        color: #666666;
-    }
-    
-    .header-controls {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 1.5rem;
-        flex-wrap: wrap;
-        gap: 1.5rem;
-    }
-    
-    .filter-label {
-        color: #666666;
-        font-size: 0.95rem;
-        margin-right: 0.5rem;
-        font-weight: 500;
-    }
-    
-    .control-buttons {
-        display: flex;
-        gap: 0.75rem;
-    }
-    
-    .action-row {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-    
-    .left-actions, .right-actions {
-        display: flex;
-        gap: 0.75rem;
-    }
-    
-    .date-filter {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    
-    .date-input {
-        padding: 0.65rem 1rem;
-        border-radius: 8px;
-        border: 1px solid rgba(0, 128, 128, 0.2);
-        background: #f5f5f5;
-        color: #333333;
-        font-size: 0.95rem;
-        transition: all 0.2s ease;
-    }
-    
-    .date-input:focus {
-        border-color: var(--primary);
-        outline: none;
-        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.25);
-    }
-    
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(2, auto);
-        gap: 1.25rem;
-        margin-bottom: 2rem;
-    }
-    
-    .stat-card {
-        background: white;
-        border-radius: 14px;
-        border: 1px solid rgba(0, 128, 128, 0.2);
-        padding: 1.5rem;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-        display: flex;
-        align-items: center;
-        transition: transform 0.3s, box-shadow 0.3s;
-        height: 100%;
-        overflow: hidden;
-        position: relative;
-    }
-    
-    .stat-card::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        height: 100%;
-        width: 4px;
-        background: teal;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-    
-    .stat-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
-    }
-    
-    .stat-card:hover::after {
-        opacity: 1;
-    }
-    
-    .stat-card .stat-icon {
-        font-size: 1.75rem;
-        color: teal;
-        background: rgba(0, 128, 128, 0.1);
-        height: 60px;
-        width: 60px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 1.5rem;
-        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
-    }
-    
-    .stat-info {
-        flex: 1;
-    }
-    
-    .stat-card .stat-value {
-        font-size: 2rem;
-        font-weight: 700;
-        margin-bottom: 0.35rem;
-        line-height: 1;
-        background: linear-gradient(90deg, #333333, #006666);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-    
-    .stat-card .stat-label {
-        font-size: 0.95rem;
-        color: #666666;
-        font-weight: 500;
-    }
-    
-    .dashboard-row {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-    }
-    
-    .data-card {
-        background: white;
-        border-radius: 12px;
-        border: 1px solid rgba(0, 128, 128, 0.2);
-        padding: 1.25rem;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-        margin-bottom: 1.5rem;
-        transition: transform 0.2s, box-shadow 0.2s;
-    }
-    
-    .data-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    }
-    
-    .data-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-        border-bottom: 1px solid rgba(0, 128, 128, 0.2);
-        padding-bottom: 0.75rem;
-    }
-    
-    .data-title {
-        font-size: 1.15rem;
-        color: #333333;
-        margin: 0;
-        font-weight: 600;
-    }
-    
-    /* Enhanced table styling for Recent Check-ins & Check-outs */
-    .data-table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        margin-top: 1rem;
-        font-size: 0.95rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        border-radius: 8px;
-        overflow: hidden;
-        background-color: white;
-    }
-
-    .data-table th {
-        text-align: left;
-        padding: 0.85rem 1.25rem;
-        font-weight: 600;
-        border-bottom: 2px solid rgba(0, 128, 128, 0.2);
-        color: teal;
-        background-color: rgba(0, 128, 128, 0.05);
-        font-size: 0.9rem;
-    }
-
-    .data-table td {
-        padding: 0.85rem 1.25rem;
-        border-bottom: 1px solid rgba(0, 128, 128, 0.1);
-        vertical-align: middle;
-        color: #444444;
-    }
-
-    /* Employee name styling */
-    .data-table td:first-child {
-        font-weight: 500;
-        color: #333333;
-    }
-
-    /* Make the status badges match the project's color scheme */
-    .status-badge {
-        display: inline-block;
-        padding: 0.25rem 0.85rem;
-        border-radius: 50px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        min-width: 100px;
-        text-align: center;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    .status-present {
-        background-color: rgba(0, 128, 128, 0.1);
-        color: teal;
-    }
-
-    .status-paused {
-        background-color: rgba(255, 193, 7, 0.1);
-        color: #ffc107;
-    }
-
-    .status-absent {
-        background-color: rgba(220, 53, 69, 0.1);
-        color: #dc3545;
-    }
-
-    /* Add hover effect to rows */
-    .data-table tbody tr:hover {
-        background-color: rgba(0, 128, 128, 0.02);
-    }
-
-    /* Last row should not have a bottom border */
-    .data-table tbody tr:last-child td {
-        border-bottom: none;
-    }
-
-    /* Time column styling - make it match other teal elements */
-    .data-table td:nth-child(3) {
-        font-family: 'Instrument Sans', sans-serif;
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: teal;
-    }
-
-    /* Data card header styling */
-    .data-header {
-        border-bottom-color: rgba(0, 128, 128, 0.2);
-    }
-
-    .data-title {
-        color: teal;
-    }
-    
-    .activity-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        max-height: 300px;
-        overflow-y: auto;
-    }
-    
-    .activity-item {
-        padding: 0.75rem 0;
-        border-bottom: 1px solid rgba(0, 128, 128, 0.2);
-        display: flex;
-        align-items: center;
-        transition: background-color 0.2s;
-    }
-    
-    .activity-item:hover {
-        background-color: rgba(0, 128, 128, 0.05);
-    }
-    
-    .activity-item:last-child {
-        border-bottom: none;
-    }
-    
-    .activity-icon {
-        width: 36px;
-        height: 36px;
-        border-radius: 8px;
-        background: rgba(0, 128, 128, 0.1);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 1rem;
-        font-size: 0.9rem;
-        color: teal;
-    }
-    
-    .activity-content {
-        flex: 1;
-    }
-    
-    .activity-content p {
-        margin: 0;
-        font-size: 0.95rem;
-    }
-    
-    .activity-time {
-        font-size: 0.8rem;
-        color: #666666;
-        margin-top: 0.25rem;
-    }
-    
-    .performer-item {
-        display: flex;
-        align-items: center;
-        padding: 0.75rem 0;
-        border-bottom: 1px solid rgba(0, 128, 128, 0.2);
-        transition: background-color 0.2s;
-    }
-    
-    .performer-item:hover {
-        background-color: rgba(0, 128, 128, 0.05);
-    }
-    
-    .performer-rank {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
-        background: teal;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.85rem;
-        font-weight: 600;
-        margin-right: 1rem;
-    }
-    
-    .performer-info {
-        flex: 1;
-    }
-    
-    .performer-name {
-        font-size: 0.95rem;
-        margin: 0;
-        font-weight: 500;
-    }
-    
-    .performer-position {
-        font-size: 0.8rem;
-        color: #666666;
-        margin-top: 0.15rem;
-    }
-    
-    .performer-value {
-        font-weight: 600;
-        font-size: 1rem;
-        color: teal;
-    }
-    
-    .progress-container {
-        width: 100%;
-        height: 8px;
-        background-color: rgba(0, 128, 128, 0.1);
-        border-radius: 4px;
-        margin: 0.75rem 0;
-        overflow: hidden;
-    }
-    
-    .progress-bar {
-        height: 100%;
-        border-radius: 4px;
-        transition: width 0.5s ease;
-    }
-    
-    .progress-present {
-        background: linear-gradient(90deg, rgba(0, 128, 128, 0.3), teal);
-    }
-    
-    .progress-absent {
-        background: linear-gradient(90deg, rgba(220, 53, 69, 0.3), #dc3545);
-    }
-    
-    .progress-paused {
-        background: linear-gradient(90deg, rgba(255, 193, 7, 0.3), #ffc107);
-    }
-    
-    .department-item {
-        margin-bottom: 1rem;
-        padding: 0.5rem;
-        border-radius: 6px;
-        transition: background-color 0.2s;
-    }
-    
-    .department-item:hover {
-        background-color: rgba(0, 128, 128, 0.05);
-    }
-    
-    .department-name {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.95rem;
-        margin-bottom: 0.35rem;
-        font-weight: 500;
-    }
-    
-    .department-count {
-        font-weight: 600;
-        color: teal;
-    }
-    
-    .quick-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-        margin-bottom: 1.5rem;
-    }
-    
-    .action-button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background-color: teal !important;
-        color: white !important;
-        padding: 0.65rem 1.25rem;
-        border-radius: 8px;
-        text-decoration: none;
-        transition: all 0.2s ease;
-        border: none;
-        cursor: pointer;
-        font-size: 0.95rem;
-        font-weight: 500;
-        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    /* Ensure all action buttons have white text */
-    .action-button, .action-button:hover, .action-button:focus, .action-button:active {
-        color: white !important;
-    }
-
-    .action-button::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255, 255, 255, 0.1);
-        transform: translateY(100%);
-        transition: transform 0.2s ease;
-    }
-    
-    .action-button:hover {
-        background-color: #006666;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
-    }
-    
-    .action-button:hover::after {
-        transform: translateY(0);
-    }
-    
-    .action-button:active {
-        transform: translateY(0);
-    }
-    
-    .action-button i {
-        margin-right: 0.5rem;
-        font-size: 1rem;
-    }
-    
-    .quick-stats-row {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 1rem;
-        flex-wrap: wrap;
-        font-size: 0.95rem;
-    }
-    
-    .refresh-btn {
-        background: transparent;
-        border: 1px solid rgba(0, 128, 128, 0.2);
-        color: #666666;
-        border-radius: 6px;
-        padding: 0.35rem 0.65rem;
-        font-size: 0.85rem;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-    
-    .refresh-btn:hover {
-        background: rgba(0, 128, 128, 0.1);
-        color: #333333;
-        border-color: rgba(0, 128, 128, 0.3);
-    }
-    
-    @media (max-width: 992px) {
-        .dashboard-row {
-            grid-template-columns: 1fr;
-        }
-        
-        .stats-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-        
-        .welcome-card h2 {
-            font-size: 1.75rem;
-        }
-    }
-    
-    @media (max-width: 576px) {
-        .stats-grid {
-            grid-template-columns: 1fr;
-        }
-        
-        .welcome-card {
-            padding: 1.5rem 1rem;
-        }
-        
-        .welcome-card h2 {
-            font-size: 1.5rem;
-        }
-        
-        .header-controls {
-            flex-direction: column;
-            align-items: stretch;
-        }
-        
-        .control-buttons {
-            width: 100%;
-        }
-        
-        .action-button {
-            flex: 1;
-        }
-    }
-
-    /* Update any remaining action buttons with specific styles */
-    #refreshDashboard, #resetDateFilter, .action-button[style] {
-        background-color: teal !important;
-        border-color: teal !important;
-    }
-
-    /* Enhance the last updated timestamp */
-    .last-updated {
-        font-size: 0.8rem;
-        color: #666666;
-        display: flex;
-        align-items: center;
-    }
-
-    .last-updated i {
-        margin-right: 0.4rem;
-        color: teal;
-    }
-</style>
+<link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 @endsection
 
 @section('content')
@@ -680,40 +13,44 @@
         <h2>Attendance & Performance Overview</h2>
         <p>Real-time summary of employee attendance, productivity, and department statistics</p>
 
-        <div class="header-controls">
-            <div class="date-filter">
-                <span class="filter-label"><i class="fas fa-filter"></i> View Period:</span>
-                <select id="timeRangeFilter" class="date-input">
-                    <option value="today">Today</option>
-                    <option value="week">This Week</option>
-                    <option value="month">This Month</option>
-                    <option value="quarter">This Quarter</option>
-                    <option value="custom">Custom Range</option>
-                </select>
+        <div class="flex items-center justify-between mb-6 p-4 rounded-lg shadow-md" style="background-color: white;">
+            <div class="flex items-center space-x-4">
+                <div>
+                    <label for="period-selector" class="block text-sm font-medium text-gray-700 mb-1">Select Period:</label>
+                    <select id="period-selector" class="border border-gray-300 rounded-md px-4 py-2 focus:ring-teal-500 focus:border-teal-500">
+                        <option value="today">Today</option>
+                        <option value="this_week">This Week</option>
+                        <option value="this_month">This Month</option>
+                        <option value="this_quarter">This Quarter</option>
+                        <option value="custom">Custom Range</option>
+                    </select>
+                </div>
             </div>
-            
-            <div class="control-buttons">
-                <button id="exportData" class="action-button" style="background-color: #10b981;">
-                    <i class="fas fa-file-export"></i> Export
+            <div class="flex items-center space-x-3">
+                <button id="refresh-btn" class="action-button" style="background-color: teal !important; color: white !important; font-weight: 600 !important;">
+                    <i class="fas fa-sync-alt mr-2"></i>Refresh
                 </button>
-                <button id="viewReports" class="action-button" style="background-color: #6b7280;">
-                    <i class="fas fa-chart-bar"></i> Reports
+                <button id="reset-btn" class="action-button" style="background-color: teal !important; color: white !important; font-weight: 600 !important;">
+                    <i class="fas fa-undo mr-2"></i>Reset
+                </button>
+                <button id="export-btn" class="action-button" style="background-color: teal !important; color: white !important; font-weight: 600 !important;">
+                    <i class="fas fa-file-export mr-2"></i>Export
                 </button>
             </div>
         </div>
         
         <div class="action-row">
             <div class="right-actions">
-                <a href="{{ route('customized.payroll') }}" class="action-button" style="background-color: teal !important; color: white !important; font-weight: 600 !important;">
-                    <i class="fas fa-calculator"></i> Payroll Analysis
-                </a>
+                <button id="viewReports" class="action-button reports-btn">
+                    <i class="fas fa-chart-bar"></i> Reports
+                </button>
             </div>
         </div>
     </div>
     
     <div class="stats-grid">
         <div class="stat-card">
-            <div class="stat-icon">
+            <div class="stat-icon icon-primary">
                 <i class="fas fa-users"></i>
             </div>
             <div class="stat-info">
@@ -723,7 +60,7 @@
         </div>
         
         <div class="stat-card">
-            <div class="stat-icon" style="color: #10b981; background: rgba(16, 185, 129, 0.1);">
+            <div class="stat-icon icon-success">
                 <i class="fas fa-user-check"></i>
             </div>
             <div class="stat-info">
@@ -733,7 +70,7 @@
         </div>
         
         <div class="stat-card">
-            <div class="stat-icon" style="color: #ef4444; background: rgba(239, 68, 68, 0.1);">
+            <div class="stat-icon icon-danger">
                 <i class="fas fa-user-times"></i>
             </div>
             <div class="stat-info">
@@ -743,7 +80,7 @@
         </div>
         
         <div class="stat-card">
-            <div class="stat-icon" style="color: #3b82f6; background: rgba(59, 130, 246, 0.1);">
+            <div class="stat-icon icon-info">
                 <i class="fas fa-clock"></i>
             </div>
             <div class="stat-info">
@@ -753,7 +90,7 @@
         </div>
         
         <div class="stat-card">
-            <div class="stat-icon" style="color: #10b981; background: rgba(16, 185, 129, 0.1);">
+            <div class="stat-icon icon-success">
                 <i class="fas fa-sign-in-alt"></i>
             </div>
             <div class="stat-info">
@@ -763,7 +100,7 @@
         </div>
         
         <div class="stat-card">
-            <div class="stat-icon" style="color: #f59e0b; background: rgba(245, 158, 11, 0.1);">
+            <div class="stat-icon icon-warning">
                 <i class="fas fa-pause-circle"></i>
             </div>
             <div class="stat-info">
@@ -784,15 +121,15 @@
                     </button>
                 </div>
                 
-                <div class="quick-stats-row" style="margin-bottom: 0.75rem;">
-                    <span style="font-size: 0.9rem; margin-right: 0.75rem;">
-                        <i class="fas fa-user-check" style="color: #10b981;"></i> Present: {{ $presentToday }} ({{ $totalEmployees > 0 ? round(($presentToday / $totalEmployees) * 100) : 0 }}%)
+                <div class="quick-stats-row">
+                    <span class="stat-item">
+                        <i class="fas fa-user-check icon-success-text"></i> Present: {{ $presentToday }} ({{ $totalEmployees > 0 ? round(($presentToday / $totalEmployees) * 100) : 0 }}%)
                     </span>
-                    <span style="font-size: 0.9rem; margin-right: 0.75rem;">
-                        <i class="fas fa-user-times" style="color: #ef4444;"></i> Absent: {{ $absentToday }} ({{ $totalEmployees > 0 ? round(($absentToday / $totalEmployees) * 100) : 0 }}%)
+                    <span class="stat-item">
+                        <i class="fas fa-user-times icon-danger-text"></i> Absent: {{ $absentToday }} ({{ $totalEmployees > 0 ? round(($absentToday / $totalEmployees) * 100) : 0 }}%)
                     </span>
-                    <span style="font-size: 0.9rem;">
-                        <i class="fas fa-pause-circle" style="color: #f59e0b;"></i> On Pause: {{ $onPause }} ({{ $presentToday > 0 ? round(($onPause / $presentToday) * 100) : 0 }}%)
+                    <span class="stat-item">
+                        <i class="fas fa-pause-circle icon-warning-text"></i> On Pause: {{ $onPause }} ({{ $presentToday > 0 ? round(($onPause / $presentToday) * 100) : 0 }}%)
                     </span>
                 </div>
                 
@@ -806,12 +143,12 @@
                     <div class="progress-bar progress-paused" style="width: {{ $presentToday > 0 ? ($onPause / $presentToday) * 100 : 0 }}%"></div>
                 </div>
                 
-                <div style="margin-top: 1rem;">
-                    <p style="font-size: 0.9rem; margin: 0.5rem 0;">
+                <div class="info-section">
+                    <p class="info-text">
                         <i class="fas fa-info-circle"></i> 
                         Attendance rate today: <strong>{{ $totalEmployees > 0 ? round(($presentToday / $totalEmployees) * 100) : 0 }}%</strong>
                     </p>
-                    <p style="font-size: 0.9rem; margin: 0.5rem 0;">
+                    <p class="info-text">
                         <i class="fas fa-info-circle"></i> 
                         Average hours worked: <strong>{{ number_format($avgHoursWorked, 1) }} hours</strong>
                     </p>
@@ -835,7 +172,7 @@
                                 <span class="department-count">{{ $count }}</span>
                             </div>
                             <div class="progress-container">
-                                <div class="progress-bar" style="width: {{ ($count / $totalEmployees) * 100 }}%; background-color: teal;"></div>
+                                <div class="progress-bar progress-department" style="width: {{ ($count / $totalEmployees) * 100 }}%;"></div>
                             </div>
                         </div>
                     @endforeach
@@ -916,29 +253,29 @@
                     <h3 class="data-title">Department Overview</h3>
                 </div>
                 
-                <div class="quick-stats-row" style="margin-bottom: 0.75rem;">
-                    <span style="font-size: 0.9rem; margin-right: 0.75rem;">
-                        <i class="fas fa-user-check" style="color: #10b981;"></i> Present: {{ $presentToday }}
+                <div class="quick-stats-row">
+                    <span class="stat-item">
+                        <i class="fas fa-user-check icon-success-text"></i> Present: {{ $presentToday }}
                     </span>
-                    <span style="font-size: 0.9rem; margin-right: 0.75rem;">
-                        <i class="fas fa-user-times" style="color: #ef4444;"></i> Absent: {{ $absentToday }}
+                    <span class="stat-item">
+                        <i class="fas fa-user-times icon-danger-text"></i> Absent: {{ $absentToday }}
                     </span>
-                    <span style="font-size: 0.9rem;">
-                        <i class="fas fa-pause-circle" style="color: #f59e0b;"></i> Paused: {{ $onPause }}
-                    </span>
-                </div>
-                
-                <div class="quick-stats-row" style="margin-bottom: 0.75rem;">
-                    <span style="font-size: 0.9rem; margin-right: 0.75rem;">
-                        <i class="fas fa-chart-line" style="color: #3b82f6;"></i> Productivity: 85%
-                    </span>
-                    <span style="font-size: 0.9rem;">
-                        <i class="fas fa-business-time" style="color: #8b5cf6;"></i> Working Hours: {{ number_format($avgHoursWorked * $presentToday, 1) }}
+                    <span class="stat-item">
+                        <i class="fas fa-pause-circle icon-warning-text"></i> Paused: {{ $onPause }}
                     </span>
                 </div>
                 
-                <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 0.75rem; margin-top: 0.5rem;">
-                    <p style="font-size: 0.85rem; margin: 0.5rem 0;">For detailed attendance information, please visit the <a href="{{ route('employees.index') }}" style="color: #3b82f6; text-decoration: underline;">Employees section</a>.</p>
+                <div class="quick-stats-row">
+                    <span class="stat-item">
+                        <i class="fas fa-chart-line icon-info-text"></i> Productivity: 85%
+                    </span>
+                    <span class="stat-item">
+                        <i class="fas fa-business-time icon-purple-text"></i> Working Hours: {{ number_format($avgHoursWorked * $presentToday, 1) }}
+                    </span>
+                </div>
+                
+                <div class="info-footer">
+                    <p class="footer-text">For detailed attendance information, please visit the <a href="{{ route('employees.index') }}" class="info-link">Employees section</a>.</p>
                 </div>
             </div>
             
@@ -949,7 +286,7 @@
                 
                 <ul class="activity-list">
                     <li class="activity-item">
-                        <div class="activity-icon" style="background-color: rgba(16, 185, 129, 0.2); color: #10b981;">
+                        <div class="activity-icon icon-success-bg">
                             <i class="fas fa-arrow-trend-up"></i>
                         </div>
                         <div class="activity-content">
@@ -958,7 +295,7 @@
                         </div>
                     </li>
                     <li class="activity-item">
-                        <div class="activity-icon" style="background-color: rgba(239, 68, 68, 0.2); color: #ef4444;">
+                        <div class="activity-icon icon-danger-bg">
                             <i class="fas fa-arrow-trend-down"></i>
                         </div>
                         <div class="activity-content">
@@ -967,7 +304,7 @@
                         </div>
                     </li>
                     <li class="activity-item">
-                        <div class="activity-icon" style="background-color: rgba(245, 158, 11, 0.2); color: #f59e0b;">
+                        <div class="activity-icon icon-warning-bg">
                             <i class="fas fa-clock"></i>
                         </div>
                         <div class="activity-content">
@@ -980,6 +317,9 @@
         </div>
     </div>
 </div>
+
+<!-- Include dashboard JavaScript -->
+<script src="{{ asset('js/dashboard.js') }}"></script>
 @endsection
 
 @section('scripts')

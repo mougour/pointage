@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LoginTestController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\PayrollAnalysisController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -114,3 +115,5 @@ Route::get('/dashboard', function () {
         'departmentStats'
     ));
 })->middleware(['auth'])->name('dashboard');
+
+Route::get('/payroll-analysis', [PayrollAnalysisController::class, 'index'])->middleware(['auth'])->name('payroll.analysis');

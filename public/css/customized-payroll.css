@@ -1,0 +1,341 @@
+/* Update payroll page to match white/teal color scheme */
+:root {
+    --primary: teal;
+    --primary-light: rgba(0, 128, 128, 0.1);
+    --secondary: #008B8B;
+    --secondary-light: rgba(0, 139, 139, 0.1);
+    --accent: teal;
+    --accent-light: rgba(0, 128, 128, 0.1);
+    --success: #047857;
+    --success-light: rgba(4, 120, 87, 0.1);
+    --danger: #B91C1C;
+    --danger-light: rgba(185, 28, 28, 0.1);
+    --warning: #B45309;
+    --warning-light: rgba(180, 83, 9, 0.1);
+    --dark-bg: white;
+    --border-color: rgba(0, 128, 128, 0.2);
+    --text-light: #666666;
+    --card-bg: white;
+}
+
+.payroll-container,
+.payroll-card {
+    background-color: white;
+    border: 1px solid rgba(0, 128, 128, 0.2);
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.payroll-header,
+.section-header {
+    background-color: rgba(0, 128, 128, 0.1);
+    color: teal;
+    border-bottom: 1px solid rgba(0, 128, 128, 0.2);
+}
+
+.payroll-title,
+.section-title {
+    color: teal;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.payroll-form {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(0, 128, 128, 0.2);
+}
+
+.payroll-form label,
+.text-label {
+    color: #666666;
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.payroll-form-title {
+    color: teal;
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+    font-weight: 600;
+}
+
+.text-value {
+    color: #333333;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.highlight-value {
+    color: teal;
+    font-weight: 600;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(0, 128, 128, 0.2);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    color: #333333;
+    background-color: white;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus {
+    border-color: teal;
+    box-shadow: 0 0 0 3px rgba(0, 128, 128, 0.15);
+    outline: none;
+}
+
+.btn-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.btn-generate,
+.btn-export,
+.btn-filter {
+    background-color: teal;
+    border-color: teal;
+    color: white;
+}
+
+.btn-generate:hover,
+.btn-export:hover,
+.btn-filter:hover {
+    background-color: #006666;
+    border-color: #006666;
+}
+
+.filter-card {
+    background-color: white;
+    border: 1px solid rgba(0, 128, 128, 0.2);
+}
+
+.payroll-results {
+    margin-top: 3rem;
+}
+
+.payroll-card {
+    background: white;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 128, 128, 0.2);
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.payroll-header {
+    background-color: rgba(0, 128, 128, 0.1);
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(0, 128, 128, 0.2);
+}
+
+.payroll-title {
+    font-size: 1.25rem;
+    margin: 0;
+    color: teal;
+    font-weight: 600;
+}
+
+.payroll-body {
+    padding: 1.5rem;
+}
+
+.info-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    gap: 2rem;
+}
+
+.info-group {
+    min-width: 180px;
+}
+
+.payroll-summary {
+    background-color: rgba(0, 128, 128, 0.03);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 128, 128, 0.1);
+    margin-top: 1.5rem;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0, 128, 128, 0.1);
+}
+
+.summary-row:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.summary-label {
+    font-size: 0.95rem;
+    color: #666666;
+}
+
+.summary-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #333333;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 2px solid rgba(0, 128, 128, 0.2);
+}
+
+.total-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333333;
+}
+
+.total-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: teal;
+}
+
+.payroll-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 1rem;
+}
+
+.payroll-table th {
+    background-color: rgba(0, 128, 128, 0.05);
+    color: #666666;
+    font-weight: 600;
+    text-align: left;
+    padding: 1rem 1.5rem;
+    border-bottom: 2px solid rgba(0, 128, 128, 0.1);
+    font-size: 0.95rem;
+}
+
+.payroll-table tr:hover td {
+    background-color: rgba(0, 128, 128, 0.05);
+}
+
+.payroll-table td {
+    padding: 1rem 1.5rem;
+    color: #333333;
+    border-bottom: 1px solid rgba(0, 128, 128, 0.1);
+}
+
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    background-color: teal;
+    color: white;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-action:hover {
+    background-color: #006666;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.badge-success {
+    background-color: rgba(4, 120, 87, 0.1);
+    color: #047857;
+}
+
+.badge-warning {
+    background-color: rgba(180, 83, 9, 0.1);
+    color: #B45309;
+}
+
+.badge-danger {
+    background-color: rgba(185, 28, 28, 0.1);
+    color: #B91C1C;
+}
+
+/* Any progress bars */
+.progress-bar {
+    background-color: teal;
+}
+
+/* Any specific status indicators */
+.status-paid {
+    background-color: rgba(0, 128, 128, 0.1);
+    color: teal;
+}
+
+@media (max-width: 768px) {
+    .payroll-container {
+        padding: 1.5rem;
+    }
+    
+    .form-row {
+        flex-direction: column;
+    }
+    
+    .form-group {
+        width: 100%;
+    }
+    
+    .btn-row {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+} 

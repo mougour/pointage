@@ -16,6 +16,7 @@
 
     <!-- Styles -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/notifications.css') }}">
     <style>
         :root {
             --primary: #00897B; /* Teal */
@@ -63,15 +64,16 @@
         .navbar-brand {
             font-weight: 600;
             color: white !important;
-            font-size: 1.5rem;
+            font-size: 1.35rem;
             letter-spacing: -0.5px;
+            padding: 0.3rem 0.5rem;
         }
         
         .navbar {
             background-color: white !important;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             border-bottom: 1px solid rgba(0, 128, 128, 0.1);
-            padding: 1rem 0;
+            padding: 0.75rem 0;
         }
         
         .centered-nav {
@@ -85,7 +87,7 @@
             padding-left: 0;
             margin-bottom: 0;
             list-style: none;
-            gap: 1rem;
+            gap: 0.75rem;
         }
         
         .centered-nav .nav-item {
@@ -96,8 +98,9 @@
             color: #555555 !important;
             transition: all 0.3s ease;
             position: relative;
-            padding: 0.5rem 1rem;
+            padding: 0.4rem 0.75rem;
             border-radius: 6px;
+            font-size: 0.9rem;
         }
         
         .centered-nav .nav-link:hover {
@@ -141,8 +144,8 @@
         
         .container-fluid {
             width: 100%;
-            padding-right: 2rem;
-            padding-left: 2rem;
+            padding-right: 1.5rem;
+            padding-left: 1.5rem;
             margin-right: auto;
             margin-left: auto;
             background-color: var(--bg-light) !important;
@@ -364,9 +367,10 @@
         
         .dropdown-item {
             color: #555555 !important;
-            padding: 0.75rem 1rem;
+            padding: 0.6rem 0.85rem;
             border-radius: 8px;
             transition: all 0.2s ease;
+            font-size: 0.9rem;
         }
         
         .dropdown-item:hover {
@@ -375,8 +379,9 @@
         }
         
         .dropdown-item i {
-            margin-right: 0.75rem;
+            margin-right: 0.5rem;
             color: var(--primary);
+            font-size: 0.85rem;
         }
 
         /* Search box styling */
@@ -404,11 +409,14 @@
         .navbar-brand {
             color: teal !important;
             font-weight: 600;
+            font-size: 1.35rem;
         }
 
         .navbar-nav .nav-link {
             color: #555555 !important;
             transition: color 0.2s ease;
+            font-size: 0.9rem;
+            padding: 0.4rem 0.75rem;
         }
 
         .navbar-nav .nav-link:hover, 
@@ -471,6 +479,12 @@
         /* Update any icons in the navbar */
         .navbar i {
             color: teal !important;
+            font-size: 0.85rem;
+        }
+        
+        /* Update the nav item icons size and spacing */
+        .navbar .nav-link i {
+            margin-right: 0.35rem;
         }
     </style>
     
@@ -516,6 +530,11 @@
                             <li class="nav-item">
                                 <a class="nav-link{{ request()->routeIs('customized.payroll') ? ' active' : '' }}" href="{{ route('customized.payroll') }}">
                                     <i class="fas fa-file-invoice-dollar"></i> Payroll Statement
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link{{ request()->routeIs('payroll.analysis') ? ' active' : '' }}" href="{{ route('payroll.analysis') }}">
+                                    <i class="fas fa-calculator"></i> Paycheck Analysis
                                 </a>
                             </li>
                             <li class="nav-item">
