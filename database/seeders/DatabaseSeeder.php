@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             LoginTestSeeder::class,
             EmployeeSeeder::class,
+            PayrollSeeder::class,
         ]);
     }
 }

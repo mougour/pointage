@@ -411,16 +411,17 @@
             <div class="chart-container">
                 <div class="bar-chart">
                     @php
-                        $max = max($monthlyTrends);
+                        $max = max($monthlyTrends ?: [0]);
                     @endphp
                     
                     @foreach($monthlyTrends as $month => $amount)
                         @php
-                            $height = ($amount / $max) * 100;
                             $shortMonth = substr($month, 0, 3);
+                            $height = $max > 0 ? (($amount / $max) * 100) : 0;
                         @endphp
+                        
                         <div class="bar" style="height: {{ $height }}%;">
-                            <span class="bar-value">${{ number_format($amount / 1000, 0) }}k</span>
+                            <span class="bar-value">${{ number_format($amount > 0 ? ($amount / 1000) : 0, 0) }}k</span>
                             <span class="bar-label">{{ $shortMonth }}</span>
                         </div>
                     @endforeach
